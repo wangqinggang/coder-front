@@ -54,12 +54,12 @@
       </a-layout-header>
 
       <a-layout-content :style="{ margin: '24px 16px 0', overflow: 'initial' }">
-        <div :style="{ padding: '30px', background: '#fff', textAlign: 'center' ,height: '600px'}">
+        <div :style="{ padding: '30px', background: '#fff', textAlign: 'center' }">
            <router-view></router-view>
         </div>
       </a-layout-content>
       <a-layout-footer :style="{ textAlign: 'center'}">
-        Ant Design ©2018 Created by Ant UED
+        www.ideaworks.club ©2021 Created by William
       </a-layout-footer>
     </a-layout>
   </a-layout>
