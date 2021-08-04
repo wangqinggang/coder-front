@@ -8,16 +8,22 @@
         <div style="width: 150px; height: 150px; overflow: hidden; margin: 0px auto;">
           <img src="https://yungouos.oss-cn-shanghai.aliyuncs.com/YunGouOS/merchant/images/native.png" alt="头像" style="width: 100%;"></div>
           <p style="font-size: 20px; margin: 10px;">扫码支付</p>
-          <p style="font-size: 15px; color: rgb(153, 153, 153);">打开"微信扫一扫，扫描商家二维码完成支付</p>
+          <p style="font-size: 15px; color: rgb(153, 153, 153);">打开"微信扫一扫，扫描二维码完成支付</p>
           </div><div style="margin: 15px 0px; text-align: center;"> 赞助金额：<span class="next-input next-input-single next-input-large">
-            <!-- <input placeholder="输入体验金额" type="text" height="100%" value="5"> -->
-            <a-input-number 
-              placeholder="输入体验金额"
+            <!-- <input placeholder="输入赞助金额" type="text" height="100%" value="5"> -->
+            <a-input placeholder="输入赞助金额" 
+            :min="2" prefix="￥" suffix="RMB"
+            :formatter="value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+            :parser="value => value.replace(/\￥\s?|(,*)/g, '')"
+            style="width: 200px"
+            v-model:value="price"/>
+            <!-- <a-input-number 
+              placeholder="输入赞助金额"
               v-model:value="price"
               :min="2"
-              :formatter="value => `¥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-              :parser="value => value.replace(/\¥\s?|(,*)/g, '')"
-            />
+              :formatter="value => `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+              :parser="value => value.replace(/\￥\s?|(,*)/g, '')"
+            /> -->
           </span>
           &nbsp;
           <a-button type="primary" @click="showModal">支付赞助</a-button>

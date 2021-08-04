@@ -3,9 +3,6 @@
     <h1>About</h1>
     <br>
     <p>
-      This project is front-end of Coder. 
-    </p>
-    <p>
       Coder is a Java code generator. It has two parts one is a back-end service that saves domain entity information provided by the user, another is a front-end UI that provide visual designing for domain entity.
     </p>
     <p>
