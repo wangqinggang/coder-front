@@ -38,35 +38,44 @@
          <br>
         </a-row>
         
-      <div class="gutter-example"  v-for="(item, index) in entity.entityFields" :key="item">
+      <div class="gutter-example"  v-for="(item, index) in entity.entityFields" :key="index">
         <a-row :gutter="24" >
             <a-col class="" :span="6">
                     <a-form-item label="Data Type" > 
                     
-                      <a-select default-value="String"
-                      v-model:value="item.dataType"  
-                       
-                      :key="item"
+                      <a-form-item label="Data Type"  >
+                      <!-- <select default-value="String"
+                      :v-model="item.dataType"  
+                      :key="index"
+                      class="option"
+                      > -->
+                      <select
+                        v-model="item.dataType"
+                        class="option"
                       >
-                        <a-select-option value="String">
+                        <option value="String" >
                           String
-                        </a-select-option>
-                        <a-select-option value="Integer">
+                        </option>
+                        <option value="Integer" >
                           Integer
-                        </a-select-option>
-                        <a-select-option value="Long">
+                        </option>
+                        <option value="Long" >
                           Long
-                        </a-select-option>
-                        <a-select-option value="Float">
+                        </option>
+                        <option value="Float" >
                           Float
-                        </a-select-option>
-                         <a-select-option value="Double">
+                        </option>
+                         <option value="Double" >
                           Double
-                        </a-select-option>
-                        <a-select-option value="Date">
+                        </option>
+                        <option value="Date" >
                           Date
-                        </a-select-option>
-                      </a-select>
+                        </option>
+                        <option value="Byte" >
+                          Byte
+                        </option>
+                      </select>
+                    </a-form-item>
                     </a-form-item>
                     
                     <span v-show="show(index)" @click="deleteItem(item)" style="display:block">
@@ -131,27 +140,74 @@
     <a-button type="primary" @click="onSubmitAll()">
         Submit
     </a-button>
+      <a-row type="flex" style="overflow: hidden;display: block;width:100%">
+        <br>
+        <br>
+        <h1>Save Your Design</h1>
+        <hr />
+        <br>
+      </a-row>
+     <a-row>
+      <a-button @click="exportDesign()">Export your design</a-button>
+    </a-row>
+    <a-row>
+      <br>
+    </a-row>
+     <a-row>
+      <a-input-search
+        v-model:value="eastsoftTable"
+        placeholder="Input EastSoft Table Name"
+        enter-button="Get EastSoft Table Design"
+        size="large"
+        @search="getDesign()"
+      />
+    </a-row>
+        <a-row>
+      <br>
+    </a-row>
+    <a-row>
+    <a-textarea v-model:value="entityJson" placeholder="Paste your design here, then click 'Import...' Button below." :rows="5" />
+    </a-row>
+    <a-row>
+      <br>
+    </a-row>
+    <a-row>
+      <a-button @click="importDesign()">Import your design</a-button>
+    </a-row>
 
+     <a-row type="flex" style="overflow: hidden;display: block;width:100%">
+        <br>
+        <br>
+        <h1>Generated Code</h1>
+        <hr />
+        <br>
+      </a-row>
     <a-tabs v-model:activeKey="activeKey">
     <a-tab-pane key="1" tab="Domain" >
-      <a-button @click="onSubmit('domain')">Regenerate</a-button> 
+      <a-row>
+            <a-button @click="onSubmit('domain')">Regenerate Domain</a-button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+             <a-button @click="download('domain')">Download Domain</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="domain" placeholder="generated code" :rows="10" />
-      <!-- <pre>
-        {{this.domain}}
-      </pre> -->
-      
+       
     </a-tab-pane>
     <a-tab-pane key="2" tab="DomainDTO">
-            <a-button @click="onSubmit('domainDTO')">Regenerate</a-button> 
+      <a-row>
+            <a-button @click="onSubmit('domainDTO')">Regenerate DomainDTO</a-button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+             <a-button @click="download('domainDTO')">Download DomainDTO</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="domainDTO" placeholder="generated code" :rows="10" />
-      <!-- <pre>
-        {{this.domainDTO}}
-      </pre> -->
       </a-tab-pane>
     <a-tab-pane key="3" tab="Service">
-      <a-button @click="onSubmit('service')">Regenerate</a-button> 
+      <a-row>
+            <a-button @click="onSubmit('service')">Regenerate service</a-button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+             <a-button @click="download('service')">Download service</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="service" placeholder="generated code" :rows="10" />
       <!-- <pre>
@@ -159,31 +215,36 @@
       </pre> -->
        </a-tab-pane>
     <a-tab-pane key="4" tab="ServiceImpl" >
-      <a-button @click="onSubmit('serviceImpl')">Regenerate</a-button> 
+      <a-row>
+          <a-button @click="onSubmit('serviceImpl')">Regenerate serviceImpl</a-button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a-button @click="download('serviceImpl')">Download serviceImpl</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="serviceImpl" placeholder="generated code" :rows="10" />
-      <!-- <pre>
-        {{this.serviceImpl}}
-      </pre> -->
       </a-tab-pane>
     <a-tab-pane key="5" tab="Repository"  >
-      <a-button @click="onSubmit('repository')">Regenerate</a-button> 
+      <a-row>
+          <a-button @click="onSubmit('repository')">Regenerate repository</a-button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a-button @click="download('repository')">Download repository</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="repository" placeholder="generated code" :rows="10" />
-      <!-- <pre>
-        {{this.repository}}
-      </pre> -->
        </a-tab-pane>
     <a-tab-pane key="6" tab="Controller">
-      <a-button @click="onSubmit('controller')">Regenerate</a-button> 
+      <a-row>
+          <a-button @click="onSubmit('controller')">Regenerate controller</a-button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <a-button @click="download('controller')">Download controller</a-button>  
+      </a-row>
       <hr>
       <a-textarea v-model:value="controller" placeholder="generated code" :rows="10" />
-      <!-- <pre>
-        {{this.controller}}
-      </pre> -->
       </a-tab-pane>
     <template #tabBarExtraContent>
       <a-button @click="onSubmitAll()">Generate ALL</a-button>
+      <br>
+      <a-button @click="onSubmitAll()">Download ALL</a-button>
     </template>
   </a-tabs>
   </div>
@@ -214,12 +275,16 @@ export default {
       repositoryUrl:'http://localhost:8888/api/code/repository',// domain 的 repository 持久化对象
       controllerUrl:'http://localhost:8888/api/code/controller',// domain 的 API 接口
 
+      eastsoftUrl: 'http://localhost:8888/api/table/entityDTO', // Eastsoft 表结构设计
+      eastsoftTable:'S_USER', // 需要查找的表名
+
       domain:'',// domain 实体
       domainDTO:'', // domain 数据传输对象
       service:'', // Domain 领域service
       serviceImpl:'', // domain 领域service实现
       repository:'',// domain 的 repository 持久化对象
       controller:'',// domain 的 API 接口
+      entityJson: '', // 用户导出设计
 
       entity: {
         entityName: "User",
@@ -272,6 +337,72 @@ export default {
 
   },
   methods: {
+    getDesign(){
+       axios({
+          method: 'get',
+          url: this.eastsoftUrl,
+          params: {'tableName':this.eastsoftTable},
+        }).then((result) => {
+          var json = JSON.stringify(result.data,null,4)
+          // console.log(json)
+          this.entityJson = json
+        }).catch((error) => {
+          console.log(error);
+        });
+
+    },
+    changeText(){
+      this.entity = JSON.parse(this.entityJson)
+    },
+    exportDesign(){
+      this.entityJson = JSON.stringify(this.entity,null,4)
+    },
+    importDesign(){
+      this.entity = JSON.parse(this.entityJson)
+    },
+    getFile(methodUrl){
+      console.log(methodUrl)
+        axios({
+          method: 'post',
+          url: methodUrl,
+          data: this.entity,
+          responseType: 'blob'
+        }).then((result) => {
+          let filename=result.headers.filename;
+          let data=result.data;
+          if(!data) {
+            return;
+          }
+          let url=window.URL.createObjectURL(new Blob([data]));
+          let a=document.createElement('a');
+          a.style.display='none';
+          a.href=url;
+          a.setAttribute('download', filename);
+          document.body.appendChild(a);
+          a.click(); //执行下载
+          window.URL.revokeObjectURL(a.href);
+          document.body.removeChild(a);
+          this.download(data);
+        }).catch((error) => {
+          console.log(error);
+        });
+      },
+    download(methodType){
+      if (methodType==='domain') {
+        this.getFile(this.domainUrl+"File")
+      }else if (methodType==='domainDTO') {
+        this.getFile(this.domainDTOUrl+"File")
+      }else if (methodType==='service') {
+       this.getFile(this.serviceUrl+"File")
+      }else if (methodType==='serviceImpl') {
+        this.getFile(this.serviceImplUrl+"File")
+      }else if (methodType==='repository') {
+        this.getFile(this.repositoryUrl+"File")
+      }else if (methodType==='controller') {
+        this.getFile(this.controllerUrl+"File")   
+      }
+      
+    },
     onSubmitAll(){
       this.onSubmit('domain')
       this.onSubmit('domainDTO')
@@ -280,56 +411,42 @@ export default {
       this.onSubmit('serviceImpl')
       this.onSubmit('controller')
     },
+    async getResult(methodUrl){
+       let res;
+         await axios({        
+          method: 'post',        
+          url: methodUrl,
+          data: this.entity
+        }).then((result) => {         
+          res = result.data
+        })    
+        return res
+    },
     onSubmit(methodType) {
-      // console.log('submit!', this.entity.entityName);
       if (methodType==='domain') {
-        axios({        
-          method: 'post',        
-          url: this.domainUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.domain=result.data 
-        })     
+        this.getResult(this.domainUrl).then(res => {
+          this.domain = res
+        })
       }else if (methodType==='domainDTO') {
-        axios({        
-          method: 'post',        
-          url: this.domainDTOUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.domainDTO=result.data 
-        })     
+        this.getResult(this.domainDTOUrl).then(res => {
+          this.domainDTO = res
+        })
       }else if (methodType==='service') {
-        axios({        
-          method: 'post',        
-          url: this.serviceUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.service=result.data  
-        })     
+        this.getResult(this.serviceUrl).then(res => {
+          this.service = res
+        })
       }else if (methodType==='serviceImpl') {
-        axios({        
-          method: 'post',        
-          url: this.serviceImplUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.serviceImpl=result.data
-        })     
+        this.getResult(this.serviceImplUrl).then(res => {
+          this.serviceImpl = res
+        })
       }else if (methodType==='repository') {
-        axios({        
-          method: 'post',        
-          url: this.repositoryUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.repository=result.data   
-        })     
+        this.getResult(this.repositoryUrl).then(res => {
+          this.repository = res
+        })
       }else if (methodType==='controller') {
-        axios({        
-          method: 'post',        
-          url: this.controllerUrl,
-          data: this.entity
-        }).then((result) => {         
-          this.controller=result.data  
-        })     
+        this.getResult(this.controllerUrl).then(res => {
+          this.controller = res
+        })
       }
     
     },
@@ -355,7 +472,8 @@ export default {
       console.log(i)
       let index = this.entity.entityFields.indexOf(i);
       this.entity.entityFields.splice(index,1)
-    }
+    },
+    
   },
 }
 </script>
@@ -364,6 +482,26 @@ export default {
 .add {
   text-align: left;
   padding: 50px;
+}
+.option{
+  padding: 4px 11px;
+  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-variant: tabular-nums;
+    list-style: none;
+    font-feature-settings: 'tnum';
+    position: relative;
+    display: inline-block;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    transition: all 0.3s;
 }
 
 /* #card {
@@ -378,4 +516,6 @@ export default {
 #card :hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 } */
+
+ 
 </style>
