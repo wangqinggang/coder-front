@@ -26,6 +26,17 @@
                   <a-input placeholder="Entity Info" v-model:value="entity.comment"/>
                 </a-form-item>
             </a-col>
+
+          </a-row>
+          <a-row>
+            <p> </p>
+          </a-row>
+          <a-row :gutter="24">
+            <a-col class="" :span="12">
+                <a-form-item  label="PackageInfo"  >
+                  <a-input placeholder="com.ideaworks.club" v-model:value="entity.packageName"/>
+                </a-form-item>
+            </a-col>
           </a-row>
               
         </div>
@@ -287,6 +298,7 @@ export default {
       entityJson: '', // 用户导出设计
 
       entity: {
+        packageName: "",
         entityName: "User",
         tableName: "USER",
         comment: "用户表",
